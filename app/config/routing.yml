@@ -1,3 +1,4 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+api_payment:
+    resource: "@ApiPaymentBundle/Resources/config/routing.yml"
+    prefix:   /
+
