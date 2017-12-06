@@ -16,19 +16,19 @@ Symfony vhsot settings:
 ------------------------
 The most important part is '/web'
 
-#<VirtualHost *:80>
-#    DocumentRoot "project_root/web"
-#    ServerName project
-#        <Directory "project root /web">
-#            Options Indexes FollowSymLinks
-#            RewriteEngine On
-#            RewriteCond %{HTTP:Authorization} ^(.*)
-#            RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
-#        AllowOverride All
-#        Order allow,deny
-#        Allow from all
-#        </Directory>
-#</VirtualHost>
+<VirtualHost *:80>
+    DocumentRoot "project_root/web"
+    ServerName project
+        <Directory "project root /web">
+            Options Indexes FollowSymLinks
+            RewriteEngine On
+            RewriteCond %{HTTP:Authorization} ^(.*)
+            RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        </Directory>
+</VirtualHost>
 
 More information:
 ------------------------
