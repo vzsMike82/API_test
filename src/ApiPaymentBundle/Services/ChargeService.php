@@ -2,10 +2,9 @@
 
 namespace ApiPaymentBundle\Services;
 
-use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use ApiPaymentBundle\Services\CalculationHelper\CalculationInterface;
-use ApiPaymentBundle\Services\CalculationHelper\CreditCardFeeCalcualtion;
+use ApiPaymentBundle\Services\CalculationHelper\CreditCardFeeCalculation;
 use ApiPaymentBundle\Services\CalculationHelper\DirectDebitFeeCalculation;
 use ApiPaymentBundle\Entity\Charge;
 use ApiPaymentBundle\Models\ChargeModel;
@@ -14,19 +13,19 @@ use Symfony\Component\HttpFoundation\Response;
 class ChargeService
 {
     protected $em;
-    protected $container;
 
     /**
      * @param EntityManager $entityManager
      * @param Container $container
      */
-    public function __construct(EntityManager $entityManager, Container $container)
+    public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
-        $this->container = $container;
     }
     
     /**
+     * Calculate Charge and store in DB
+     * 
      * @param array $requestData
      */
     public function setCharge($requestData)
@@ -36,7 +35,7 @@ class ChargeService
 
         $fee = 0;
         if ($payment->getType() == CalculationInterface::CREDIT_CARD) {
-            $ccCalculation = new CreditCardFeeCalcualtion();
+            $ccCalculation = new CreditCardFeeCalculation();
             $fee = $ccCalculation->charge(
                 CalculationInterface::CREDIT_CARD, 
                 $requestData['amount']
@@ -61,9 +60,11 @@ class ChargeService
     }
     
     /**
-     * @return type
+     * Fetch all Charges from DB
+     * 
+     * @return array
      */
-    public function setGetAll() 
+    public function getAll() 
     {
         $charges = $this->em->getRepository('ApiPaymentBundle:Charge')
             ->findAll();
@@ -83,6 +84,8 @@ class ChargeService
     }
     
     /**
+     * Fetch charge from DB by Id
+     * 
      * @param int $id
      * @return type
      */

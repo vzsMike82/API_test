@@ -1,7 +1,6 @@
 <?php
 namespace ApiPaymentBundle\Services;
 
-use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use ApiPaymentBundle\Entity\Payment;
 
@@ -11,19 +10,23 @@ use ApiPaymentBundle\Entity\Payment;
 class PaymentService 
 {
     protected $em;
-    protected $container;
 
     /**
      * 
      * @param EntityManager $entityManager
      * @param Container $container
      */
-    public function __construct(EntityManager $entityManager, Container $container)
+    public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
-        $this->container = $container;
     }
     
+    /**
+     * Store Payment Object in DB
+     * 
+     * @param aray $payment
+     * @return Payment
+     */
     public function setPayment($payment)
     {
         $newPayment = new Payment();

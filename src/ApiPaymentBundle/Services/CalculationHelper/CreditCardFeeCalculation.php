@@ -4,7 +4,7 @@ namespace ApiPaymentBundle\Services\CalculationHelper;
 
 use ApiPaymentBundle\Services\CalculationHelper\CalculationInterface;
 
-class CreditCardFeeCalcualtion implements CalculationInterface
+class CreditCardFeeCalculation implements CalculationInterface
 {
     /**
      * @param string $paymentType

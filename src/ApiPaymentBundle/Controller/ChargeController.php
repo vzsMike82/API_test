@@ -17,7 +17,7 @@ class ChargeController extends BaseController
      */
     public function getAction()
     {
-        $charges = $this->chargeService()->setGetAll();
+        $charges = $this->chargeService()->getAll();
         
         return new Response(json_encode($charges), Response::HTTP_OK);
     }
