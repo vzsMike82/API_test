@@ -8,7 +8,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 class ConstraintCardTypeValidator extends ConstraintValidator
 {
     const DIRECT_DEBIT = 'dd';
-    const CREAIT_CARD = 'cc';
+    const CREDIT_CARD = 'cc';
     
     /**
      * @param string $value
@@ -16,7 +16,7 @@ class ConstraintCardTypeValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {   
-        if (!in_array($value, [self::DIRECT_DEBIT, self::CREAIT_CARD])) {
+        if (!in_array($value, [self::DIRECT_DEBIT, self::CREDIT_CARD])) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%string%', $value)
                 ->addViolation();
