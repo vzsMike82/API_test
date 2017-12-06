@@ -15,8 +15,7 @@ class Charge
 {
     public function __construct()
     {   
-        //$this->created = new \DateTime();
-
+        $this->created = new \DateTime();
     }
     
      /**

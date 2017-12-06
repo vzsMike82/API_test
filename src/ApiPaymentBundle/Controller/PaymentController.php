@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use ApiPaymentBundle\Controller\Base\BaseController;
 use ApiPaymentBundle\Validation\Transformer\PostPayment;
 
+/**
+ * PaymentController
+ */
 class PaymentController extends BaseController
 {
     /**
@@ -22,8 +25,7 @@ class PaymentController extends BaseController
             return $errors;
         }
 
-        $paymentService = $this->container->get('api_payment');
-        $paymentService->setPayment($requestData);
+        $this->paymentService()->setPayment($requestData);
         
         return new Response('', Response::HTTP_OK);
     }

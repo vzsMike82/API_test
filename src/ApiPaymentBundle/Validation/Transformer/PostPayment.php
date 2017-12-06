@@ -2,7 +2,7 @@
 
 namespace ApiPaymentBundle\Validation\Transformer;
 
-use ApiPaymentBundle\Validation\Models\PaymentDebitCardModel;
+use ApiPaymentBundle\Validation\Models\PaymentDirectDebitModel;
 use ApiPaymentBundle\Validation\Models\PaymentCreditCardModel;
 use ApiPaymentBundle\Validation\ErrorHandler\ErrorHandler;
 use ApiPaymentBundle\Validation\Transformer\ModelValidationInterface;
@@ -51,11 +51,11 @@ class PostPayment extends ErrorHandler implements ModelValidationInterface
     
     /**
      * @param array $requestData
-     * @return PaymentDebitCardModel
+     * @return PaymentDirectDebitModel
      */
     protected function checkDirectDebit($requestData)
     {
-        $deitCardModel = new PaymentDebitCardModel();
+        $deitCardModel = new PaymentDirectDebitModel();
                 
         return $deitCardModel
             ->setName($requestData['name'])

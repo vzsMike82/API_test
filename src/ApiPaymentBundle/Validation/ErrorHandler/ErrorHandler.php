@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 class ErrorHandler implements ValidationErrorInterface
 {
     /**
-     * 
      * @param array $errors
      * @return Response
      */

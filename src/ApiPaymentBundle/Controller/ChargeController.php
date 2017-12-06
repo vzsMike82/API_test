@@ -17,15 +17,9 @@ class ChargeController extends BaseController
      */
     public function getAction()
     {
-        $request = $this->get('request_stack')->getCurrentRequest();
-        $requestData = json_decode($request->getContent(), true);
+        $charges = $this->chargeService()->setGetAll();
         
-        $chargeService = $this->container->get('api_payment.charge');
-        $charges = $chargeService->setGetAll();
-        
-        $data = json_encode($charges);
-        
-        return new Response($data, Response::HTTP_OK);
+        return new Response(json_encode($charges), Response::HTTP_OK);
     }
     
     /**
@@ -40,9 +34,16 @@ class ChargeController extends BaseController
         if (!empty($errors)) {
             return $errors;
         }
-
-        $chargeService = $this->container->get('api_payment.charge');
-        $chargeService->setCharge($requestData);
+        $hasEntityError = $this->chargeService()->hasEntity(
+            'Payment', 
+            isset($requestData['payment_id']) ? $requestData['payment_id'] : 0
+        );
+          
+        if(!empty($hasEntityError)) {
+            return $hasEntityError;
+        }
+        
+        $this->chargeService()->setCharge($requestData);
 
         return new Response('', Response::HTTP_OK);
     }
@@ -52,12 +53,17 @@ class ChargeController extends BaseController
      */
     public function getOneAction($chargeId)
     {
-        $chargeService = $this->container->get('api_payment.charge');
-        $charges = $chargeService->setGetOneCharge($chargeId);
+        $hasEntityError = $this->chargeService()->hasEntity(
+            'Charge', 
+            $chargeId
+        );
         
-        $data = json_encode($charges);
+        if(!empty($hasEntityError)) {
+            return $hasEntityError;
+        }
         
-        return new Response($data, Response::HTTP_OK);
-        return new Response($id, 200);
+        $charges = $this->chargeService()->getOneCharge($chargeId);
+        
+        return new Response(json_encode($charges), Response::HTTP_OK);
     }      
 }

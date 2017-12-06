@@ -57,5 +57,4 @@ class PaymentDirectDebitModel
         
         return $this;
     }
-
 }

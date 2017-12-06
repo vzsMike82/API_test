@@ -1,20 +1,20 @@
 api_payment_makeapaymant:
-    path:     /payment/
+    path:     /payment
     defaults: { _controller: ApiPaymentBundle:Payment:post }
     methods:  [POST]
 
 api_charge_getcharge:
-    path:     /charge/
+    path:     /charge
     defaults: { _controller: ApiPaymentBundle:Charge:get }
     methods:  [GET]
 
 api_charge_postcharge:
-    path:     /charge/
+    path:     /charge
     defaults: { _controller: ApiPaymentBundle:Charge:post }
     methods:  [POST]
 
 api_charge_getonecharge:
-    path:     /charge/{chargeId}/
+    path:     /charge/{chargeId}
     defaults: { _controller: ApiPaymentBundle:Charge:getone }
     methods:  [GET]
     requirements:

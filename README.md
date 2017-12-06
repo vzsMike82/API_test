@@ -1,72 +1,87 @@
-Symfony Standard Edition
+Basic API for test
 ========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+- This Project is based on Symfony 3.4
+- Minimum PHP 5.5+
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+Install
+------------------------
+- Composer Install (needed)
+- SET (dbname and user, pass) /app/config/parameters.yml 
+- Need to create manually a DB without any table
+- on project root in CLI run 'php app/console doctrine:schema:update --force' or import DB dump
+- give permission to project especially var, web, vendor folders
 
-What's inside?
---------------
+Symfony vhsot settings:
+------------------------
+The most important part is '/web'
 
-The Symfony Standard Edition is configured with the following defaults:
+#<VirtualHost *:80>
+#    DocumentRoot "project_root/web"
+#    ServerName project
+#        <Directory "project root /web">
+#            Options Indexes FollowSymLinks
+#            RewriteEngine On
+#            RewriteCond %{HTTP:Authorization} ^(.*)
+#            RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+#        AllowOverride All
+#        Order allow,deny
+#        Allow from all
+#        </Directory>
+#</VirtualHost>
 
-  * An AppBundle you can use to start coding;
+More information:
+------------------------
+Setup helper: https://symfony.com/doc/3.4/setup.html
 
-  * Twig as the only configured template engine;
 
-  * Doctrine ORM/DBAL;
 
-  * Swiftmailer;
 
-  * Annotations enabled for everything.
 
-It comes pre-configured with the following bundles:
+------------------------
+API calls:
+------------------------
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+- POST {{host}}/payment
+// id is generated
+Request Body:
+{
+    "name":  "Test111",
+    "type":  "dd",
+    "iban":  "IBAN23565154544161",
+    "expiry": "2018-11-12",
+    "cc":    "1334",
+    "ccv":   "12435"
+}
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+- POST {{host}}/charge
+// id is generated
+Request Body:
+{
+    "payment_id": "2",
+    "amount": "50.12"
+}
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+- GET {{host}}/charge
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+Response
+[
+    {
+        "id": 1,
+        "payment_id": 1,
+        "amount": 11.98
+    },
+    {
+        "id": 2,
+        "payment_id": 1,
+        "amount": 59.06
+    }
+]
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev env) - Adds code generation
-    capabilities
-
-  * [**WebServerBundle**][14] (in dev env) - Adds commands for running applications
-    using the PHP built-in web server
-
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  https://symfony.com/doc/3.4/setup.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.4/doctrine.html
-[8]:  https://symfony.com/doc/3.4/templating.html
-[9]:  https://symfony.com/doc/3.4/security.html
-[10]: https://symfony.com/doc/3.4/email.html
-[11]: https://symfony.com/doc/3.4/logging.html
-[13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
-[14]: https://symfony.com/doc/current/setup/built_in_web_server.html
+- GET {{host}}/charge/1
+Response
+{
+     "id": 1,
+     "payment_id": 1,
+     "amount": 11.98
+}

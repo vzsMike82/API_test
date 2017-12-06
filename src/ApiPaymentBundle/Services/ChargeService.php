@@ -9,6 +9,7 @@ use ApiPaymentBundle\Services\CalculationHelper\CreditCardFeeCalcualtion;
 use ApiPaymentBundle\Services\CalculationHelper\DirectDebitFeeCalculation;
 use ApiPaymentBundle\Entity\Charge;
 use ApiPaymentBundle\Models\ChargeModel;
+use Symfony\Component\HttpFoundation\Response;
 
 class ChargeService
 {
@@ -85,7 +86,7 @@ class ChargeService
      * @param int $id
      * @return type
      */
-     public function setGetOneCharge($id)
+    public function getOneCharge($id)
     {
         $charge = $this->em->getRepository('ApiPaymentBundle:Charge')
             ->find($id);
@@ -97,5 +98,33 @@ class ChargeService
         ];
 
         return new ChargeModel($data);
+    }
+    
+    /**
+     * @param string $entity
+     * @param int $id
+     * @return Response|null
+     */
+    public function hasEntity($entity, $id)
+    {
+       if(empty($this->em->getRepository('ApiPaymentBundle:' . $entity)->find($id))) {
+           return $this->generalError($entity);
+       }
+       
+       return null;
+    }
+    
+    /**
+     * @return Response
+     */
+    protected function generalError($entity)
+    {
+        $charge = [ 'error' => $entity . ' doesn\'t exist' ];
+                
+        return new Response(
+            \json_encode($charge), 
+            Response::HTTP_NOT_FOUND, 
+            ['Content-Type' => 'application/json',]
+        );
     }
 }

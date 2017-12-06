@@ -17,7 +17,6 @@ class ChargeModel
     ];
     
     /**
-     * 
      * @param array $data
      */
     public function __construct(array $data) 

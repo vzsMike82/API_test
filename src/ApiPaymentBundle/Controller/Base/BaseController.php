@@ -24,4 +24,20 @@ class BaseController extends Controller
         
         return $errorHandler->modelErrorHandling($errors);
    }
+   
+   /**
+    * @return PaymentService
+    */
+   protected function paymentService()
+   {
+       return $this->container->get('api_payment');
+   }
+   
+   /**
+    * @return ChargeService
+    */
+   protected function chargeService()
+   {
+       return $this->container->get('api_payment.charge');
+   }
 }
