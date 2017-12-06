@@ -8,7 +8,7 @@ api_charge_getcharge:
     defaults: { _controller: ApiPaymentBundle:Charge:get }
     methods:  [GET]
 
-api_charge_postCharge:
+api_charge_postcharge:
     path:     /charge/
     defaults: { _controller: ApiPaymentBundle:Charge:post }
     methods:  [POST]

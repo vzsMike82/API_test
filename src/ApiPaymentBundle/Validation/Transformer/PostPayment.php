@@ -5,13 +5,18 @@ namespace ApiPaymentBundle\Validation\Transformer;
 use ApiPaymentBundle\Validation\Models\PaymentDebitCardModel;
 use ApiPaymentBundle\Validation\Models\PaymentCreditCardModel;
 use ApiPaymentBundle\Validation\ErrorHandler\ErrorHandler;
+use ApiPaymentBundle\Validation\Transformer\ModelValidationInterface;
 
-class PostPayment extends ErrorHandler
+class PostPayment extends ErrorHandler implements ModelValidationInterface
 {
     const DIRECT_DEBIT = 'dd';
     const CREADIT_CARD = 'cc';
 
-    public function setPayment(array $requestData)
+    /**
+     * @param array $requestData
+     * @return Object
+     */
+    public function setModelToValidate(array $requestData)
     {
         if (!isset($requestData['type'])) {
            $requestData['type'] =  '';
@@ -44,6 +49,10 @@ class PostPayment extends ErrorHandler
         }
     }
     
+    /**
+     * @param array $requestData
+     * @return PaymentDebitCardModel
+     */
     protected function checkDirectDebit($requestData)
     {
         $deitCardModel = new PaymentDebitCardModel();
@@ -55,6 +64,10 @@ class PostPayment extends ErrorHandler
         ;
     }
     
+    /**
+     * @param array $requestData
+     * @return PaymentCreditCardModel
+     */
     protected function checkCreditCard($requestData)
     {
         $creditCardModel = new PaymentCreditCardModel();

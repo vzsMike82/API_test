@@ -20,8 +20,8 @@ class Payment
      
     public function __construct()
     {   
-         $this->charges = new ArrayCollection();
-         $this->created = new \DateTime();
+        $this->charges = new ArrayCollection();
+        $this->created = new \DateTime();
     }
     
     /**
@@ -239,11 +239,11 @@ class Payment
     /**
      * Set created
      *
-     * @param \dateime $created
+     * @param \DateTime $created
      *
      * @return Payment
      */
-    public function setCreated(\dateime $created)
+    public function setCreated($created)
     {
         $this->created = $created;
 
@@ -258,5 +258,39 @@ class Payment
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * Add charge
+     *
+     * @param \ApiPaymentBundle\Entity\Charge $charge
+     *
+     * @return Payment
+     */
+    public function addCharge(\ApiPaymentBundle\Entity\Charge $charge)
+    {
+        $this->charges[] = $charge;
+
+        return $this;
+    }
+
+    /**
+     * Remove charge
+     *
+     * @param \ApiPaymentBundle\Entity\Charge $charge
+     */
+    public function removeCharge(\ApiPaymentBundle\Entity\Charge $charge)
+    {
+        $this->charges->removeElement($charge);
+    }
+
+    /**
+     * Get charges
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCharges()
+    {
+        return $this->charges;
     }
 }

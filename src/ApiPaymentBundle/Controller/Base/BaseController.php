@@ -18,7 +18,7 @@ class BaseController extends Controller
     protected function validate($requestData, $validator)
     {
         $errors = $this->get('validator')
-            ->validate($validator->setPayment($requestData));
+            ->validate($validator->setModelToValidate($requestData));
         
         $errorHandler = new ErrorHandler();
         

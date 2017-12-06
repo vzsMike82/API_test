@@ -3,22 +3,29 @@
 namespace ApiPaymentBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use ApiPaymentBundle\Controller\Base\BaseController;
+use ApiPaymentBundle\Validation\Transformer\PostCharge;
 
 /**
- * Description of ChargeController
- * @author Zsolt
+ * ChargeController
  */
-class ChargeController extends Controller
+class ChargeController extends BaseController
 {
     /**
      * @Route(name="getcharge")
      */
     public function getAction()
     {
-        return new Response('',200);
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $requestData = json_decode($request->getContent(), true);
+        
+        $chargeService = $this->container->get('api_payment.charge');
+        $charges = $chargeService->setGetAll();
+        
+        $data = json_encode($charges);
+        
+        return new Response($data, Response::HTTP_OK);
     }
     
     /**
@@ -26,7 +33,18 @@ class ChargeController extends Controller
      */
     public function postAction()
     {
-        return new Response('',200);
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $requestData = json_decode($request->getContent(), true);
+
+        $errors = $this->validate($requestData, new PostCharge());
+        if (!empty($errors)) {
+            return $errors;
+        }
+
+        $chargeService = $this->container->get('api_payment.charge');
+        $chargeService->setCharge($requestData);
+
+        return new Response('', Response::HTTP_OK);
     }
     
     /**
@@ -34,9 +52,12 @@ class ChargeController extends Controller
      */
     public function getOneAction($chargeId)
     {
-        $id = \json_encode(['id' => $chargeId]);
+        $chargeService = $this->container->get('api_payment.charge');
+        $charges = $chargeService->setGetOneCharge($chargeId);
+        
+        $data = json_encode($charges);
+        
+        return new Response($data, Response::HTTP_OK);
         return new Response($id, 200);
-    }
-    
-            
+    }      
 }

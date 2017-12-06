@@ -2,3 +2,6 @@ services:
     api_payment:
         class: ApiPaymentBundle\Services\PaymentService
         arguments: [ "@doctrine.orm.entity_manager", "@service_container" ] 
+    api_payment.charge:
+        class: ApiPaymentBundle\Services\ChargeService
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container" ] 
